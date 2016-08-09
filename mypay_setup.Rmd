@@ -1,0 +1,420 @@
+---
+title: "myPay Data Setup"
+author: "Paul Testa"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: 
+    html_document:
+        toc: true
+---
+
+```{r init,echo=F}
+library(knitr)
+opts_chunk$set(eval=T,echo=T,results="hide",message=F,warning=F,cache=F)
+
+```
+
+# Overview
+
+This document provides an overview of the code to set up and clean the data used in the myPay reactivation study. 
+
+# Load Data
+
+First data are downloaded to a local machine. Outcomes were observed at 5 points during the study, creating five separate datasets. You may need to install the "readstata13" package to load the stata 13 dta files.
+
+```{r}
+library(foreign)
+# install.packages(readstata13)
+library(readstata13)
+# df1: 9/18 1st data pull
+# Treatment sent to: Group 7
+# On: 9/8
+# Untreated: Groups 1:6,8-10
+df1<-read.dta13("~/Documents/sbst/mypay/data/ra_group7_20150918062649_ForAnalysis_clean.dta")
+
+# df2: 9/28 data pull
+# Treatment sent to Groups 2,5&6
+# On 2/22
+# Untreated: Groups 1,3,4,8-10
+#df2<-read.dta("~/Documents/sbst/mypay/data/ra_group7_20150928144801_clean_s12.dta")
+df2<-read.dta13("~/Documents/sbst/mypay/data/ra_group7_20150928144801_clean.dta")
+
+# df3: 10/28 data pull
+# Treatment sent to Groups 8,9&10
+# On 10/20
+# Untreated: Groups 1,3,4
+#df3<-read.dta("~/Documents/sbst/mypay/data/ra_20151028145544_clean_s12.dta")
+df3<-read.dta13("~/Documents/sbst/mypay/data/ra_20151028145544_clean.dta")
+
+
+# df4: 11/10 data pull
+# Treatment sent to Groups 8,9&10
+# On 11/4: Group 3; 11/5 Group 4
+# Untreated: Groups 1
+#df4<-read.dta("~/Documents/sbst/mypay/data/ra_20151110142001_clean_s12.dta")
+df4<-read.dta13("~/Documents/sbst/mypay/data/ra_20151110142001_clean.dta")
+
+# df5: 12/14 data pull
+# Treatment sent to Groups 1 (Control)
+# On 12/8
+# Untreated: None
+#df5<-read.dta("~/Documents/sbst/mypay/data/ra_20151214105342_clean_s12.dta")
+df5<-read.dta13("~/Documents/sbst/mypay/data/ra_20151214105342_clean.dta")
+
+```
+
+
+# Examine and check data
+
+Each dataset contains 17 fields with `r dim(df1)[1]` observations`
+
+```{r}
+# Common names
+names(df1)%in%names(df5)
+
+# Unique identify
+stopifnot(length(unique(df1$id))==dim(df2)[1])
+# Same cases
+stopifnot(sum(df2$id%in%df3$id)==dim(df1)[1])
+# Different orderings
+```
+
+The observations contain a unique id from 1 to `r dim(df1)[1]` We reorder the data so each row corresponds to the same observation.
+
+```{r}
+sum(df2$id==df3$id)
+df1<-df1[order(df1$id),]
+df2<-df2[order(df2$id),]
+df3<-df3[order(df3$id),]
+df4<-df4[order(df4$id),]
+df5<-df5[order(df5$id),]
+
+stopifnot(sum(df4$id==df5$id)==dim(df1)[1])
+stopifnot(sum(df2$EmailGroup==df3$EmailGroup)==dim(df1)[1])
+
+```
+
+# Create single "wide" data set
+
+Next we create a single "wide" dataset that allows us create multiple measures of our outcome ("my pay reactivation") for different dates.
+
+```{r}
+data<-df1[,c("EmailGroup","id","BOS","PSC","age","OrigAccessed")]
+```
+
+Below we take the raw treatment indicator and recode it so that cases in groups A,B,C are all coded as control cases (i.e. cases that did not receive an initial email)
+
+```{r}
+# Create Treatment Indicator
+table(data$EmailGroup)
+library(car)
+
+data$treatment<-data$EmailGroup
+data$treatment[grepl("A|B|C",data$treatment)]<-"Control"
+data$treatment[grepl("2",data$treatment)]<-"2: Baseline"
+
+data$treatment<-factor(data$treatment,levels=c("Control","2: Baseline",3:10))
+table(data$treatment)
+```
+
+
+Now we'll use the lubridate package to make it easier to work with dates. You'll need to install it with install.packages(lubridate) if it's not already on your machine. The original data conains a variable called "accessdate" that contains data on the last time a person accessed their account in "MM/DD/YYYY" format. We'll use lubridate's mdy() function to turn this character data into a Date format that we can manipulate more easily. 
+
+There seem to be some missing/empty "access" dates. 
+
+With regard to the first point, access dates from df3 (data collected on 10/20/2015) are used to define outcomes for Groups 2,5,and 6 (treatments sent on 9/22 with data collected on 9/28 in df2). A potential drawback of this approach is that if people access their accounts multiple times, their latest access date may not be their first access date. 
+
+In cases where access dates are missing  access dates from the previous data pull are plugged in.
+
+
+
+
+```{r}
+# Original Access Date
+# install.packages(lubridate)
+library(lubridate)
+
+# Wave 1
+sum(df1$accessdate=="") # No missing
+
+data$date_accessed_w1<-mdy(df1$accessdate)
+# Make sure no access dates greater than data pull date
+stopifnot(sum(data$date_accessed_w1>ymd("2015-09-18"))==0)
+
+
+# Wave 2
+sum(df2$accessdate=="") # 1 Missing
+
+data$date_accessed_w2<-mdy(df2$accessdate)
+# Fill in missing with values from previous wave
+data$date_accessed_w2[is.na(data$date_accessed_w2)]<-data$date_accessed_w1[is.na(
+data$date_accessed_w2)]
+
+# Make sure no access dates greater than data pull date
+stopifnot(sum(data$date_accessed_w2>ymd("2015-09-28"))==0)
+
+
+# Wave 3
+
+sum(df3$accessdate=="") # 15 missing cases in df3
+# Look at cases
+cbind(df2[df3$accessdate=="",c("accessdate","id")],
+df3[df3$accessdate=="",c("accessdate","id")],
+df4[df3$accessdate=="",c("accessdate","id")],
+df5[df3$accessdate=="",c("accessdate","id")])
+
+data$date_accessed_w3<-mdy(df3$accessdate)
+# Fill in missing with values from previous wave
+data$date_accessed_w3[is.na(data$date_accessed_w3)]<-data$date_accessed_w2[is.na(
+data$date_accessed_w3)]
+
+stopifnot(sum(data$date_accessed_w3>ymd("2015-10-28"))==0)
+
+# Wave 4
+
+sum(df4$accessdate=="")#32 missing cases in df4
+
+# Look at missing cases
+cbind(df2[df4$accessdate=="",c("accessdate","id")],
+df3[df4$accessdate=="",c("accessdate","id")],
+df4[df4$accessdate=="",c("accessdate","id")],
+df5[df4$accessdate=="",c("accessdate","id")])
+
+# Genereate access date
+data$date_accessed_w4<-mdy(df4$accessdate)
+
+# Fill in missing dates from previous wave
+data$date_accessed_w4[is.na(data$date_accessed_w4)]<-data$date_accessed_w3[is.na(data$date_accessed_w4)]
+
+
+
+
+# Wave 5 (Not used in anlaysis)
+
+
+sum(df5$accessdate=="") # 33 Missing
+
+cbind(df2[df5$accessdate=="",c("accessdate","id")],
+df3[df5$accessdate=="",c("accessdate","id")],
+df4[df5$accessdate=="",c("accessdate","id")],
+df5[df5$accessdate=="",c("accessdate","id")])
+
+data$date_accessed_w5<-mdy(df5$accessdate)
+# Fill in Missing
+data$date_accessed_w5[is.na(data$date_accessed_w5)]<-data$date_accessed_w4[is.na(data$date_accessed_w5)]
+sum(is.na(data$date_accessed_w5))
+```
+
+# Additional Treatment Indicators
+
+Next we define some additional treatment indicators to facilitate comparisons across subgroups.
+
+```{r}
+# Comparison to Control
+# Any Email
+data$treat_anyemail<-ifelse(data$treatment=="Control","Control","Email")
+# Email Type
+data$treat_type[data$treatment=="Control"]<-"Control"
+data$treat_type[data$treatment=="2: Baseline"]<-"Baseline"
+data$treat_type[data$treatment=="3"|data$treatment=="4"]<-"Signature"
+data$treat_type[data$treatment=="5"|data$treatment=="6"
+                |data$treatment=="7"]<-"Tax Benefits"
+data$treat_type[data$treatment=="8"|data$treatment=="9"
+                |data$treatment=="10"]<-"General Benefits"
+
+data$treat_type<-factor(data$treat_type,levels=c("Control","Baseline","Signature","Tax Benefits","General Benefits"))
+```
+
+
+# Define outcomes
+
+Now we'll define so measures of our outcome: myPay reactivation.
+
+First we'll create the measure currently used in the abstract called "accessed." It takes a value of 1 if the access date from the fourth data pull (df4, pulled on 11/10/2015) is between 9/8/2015 (the date the first email for treatment group 7 went out) and 11/10/2015 (the date of the fourth data pull) and 0 otherwise.
+
+The benefit if this outcome is that it's relatively easy to construct and discuss. The drawback is that it doesn't really provide an apples to apples comparison, since some treatments have been in the field longer than the others.
+
+As an alternative we define a number of wave-specific treatments, that are defined within a comparable 6 day window for various groups. Specifcally we define comparisons in three ways:
+
+1. Treated group vs untreated groups in the same time period
+2. Treated group vs control group (those assigned not to receive an intitial email) in the same time period
+3. Similar emails relative to the baseline email 
+
+
+
+
+```{r}
+# General Outcome: Any Access between 9/8 and 11/10 using wave 4 data
+
+data$accessed<-as.numeric(data$date_accessed_w4>="2015-09-08"&data$date_accessed_w4<="2015-11-10")
+
+
+# Wave Specific Comparisons
+
+# Date treatments were sent
+treatment_dates<-ymd(c("2015-09-09","2015-09-22","2015-10-20","2015-11-04","2015-11-05"))
+# Six days, inclusive of sent date
+outcome_range<-treatment_dates+5
+
+
+# accessed_w1
+# Treated: 7
+# Comparison: Not yet treated: Control, 1:6, 8:10
+
+data$accessed_w1<-0
+data$accessed_w1[data$date_accessed_w1>=treatment_dates[1]&
+                    data$date_accessed_w1<=outcome_range[1]]<-1
+with(data,table(accessed_w1,treatment,useNA="ifany"))
+
+
+                
+
+# accessed_w1_c
+# Treated: 7
+# Comparison: Control Only
+
+data$accessed_w1_c<-0
+data$accessed_w1_c[data$date_accessed_w1>=treatment_dates[1]&
+                    data$date_accessed_w1<=outcome_range[1]]<-1
+
+data$accessed_w1_c[!grepl("Control|7",data$treatment)]<-NA
+with(data,table(accessed_w1_c,treatment,useNA="ifany"))
+
+
+# Wave 2
+
+data$accessed_w2<-0
+data$accessed_w2[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]]<-1
+data$accessed_w2[grepl("7",data$treatment)]<-NA
+with(data,table(accessed_w2,treatment,useNA="ifany"))
+
+# accessed_w2_c
+# Treated: 5 6
+# Comparison: Control Only
+
+data$accessed_w2_c<-0
+data$accessed_w2_c[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]]<-1
+
+data$accessed_w2_c[!grepl("Control|2: Baseline|5|6",data$treatment)]<-NA
+with(data,table(accessed_w2_c,treatment,useNA="ifany"))
+
+data$accessed_w2_567v2<-0
+data$accessed_w2_567v2[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]
+                   &data$treatment=="5"
+                   ]<-1
+data$accessed_w2_567v2[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]
+                   &data$treatment=="6"
+                   ]<-1
+data$accessed_w2_567v2[data$date_accessed_w1>=treatment_dates[1]&
+                    data$date_accessed_w1<=outcome_range[1]
+                   &data$treatment=="7"
+                   ]<-1
+data$accessed_w2_567v2[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]
+                   &data$treatment=="2: Baseline"
+                   ]<-1
+
+data$accessed_w2_567v2[!grepl("2: Baseline|5|6|7",data$treatment)]<-NA
+with(data,table(accessed_w2_567v2,treatment,useNA="ifany"))
+
+
+# Wave 3
+
+
+data$accessed_w3<-0
+data$accessed_w3[data$date_accessed_w3>=treatment_dates[3]&
+                    data$date_accessed_w3<=outcome_range[3]]<-1
+data$accessed_w3[grepl("2: Baseline|5|6|7",data$treatment)]<-NA
+with(data,table(accessed_w3,treatment,useNA="ifany"))
+
+
+data$accessed_w3_c<-0
+data$accessed_w3_c[data$date_accessed_w3>=treatment_dates[3]&
+                    data$date_accessed_w3<=outcome_range[3]]<-1
+
+data$accessed_w3_c[!grepl("Control|8|9|10",data$treatment)]<-NA
+with(data,table(accessed_w3_c,treatment,useNA="ifany"))
+
+data$accessed_w3_8910v2<-0
+data$accessed_w3_8910v2[data$date_accessed_w3>=treatment_dates[3]&
+                    data$date_accessed_w3<=outcome_range[3]
+                   &data$treatment=="8"
+                   ]<-1
+data$accessed_w3_8910v2[data$date_accessed_w3>=treatment_dates[3]&
+                    data$date_accessed_w3<=outcome_range[3]
+                   &data$treatment=="9"
+                   ]<-1
+data$accessed_w3_8910v2[data$date_accessed_w3>=treatment_dates[3]&
+                    data$date_accessed_w3<=outcome_range[3]
+                   &data$treatment=="10"
+                   ]<-1
+
+data$accessed_w3_8910v2[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]
+                   &data$treatment=="2: Baseline"
+                   ]<-1
+
+data$accessed_w3_8910v2[!grepl("2: Baseline|8|9|10",data$treatment)]<-NA
+with(data,table(accessed_w3_8910v2,treatment,useNA="ifany"))
+
+
+
+# wave 4
+
+data$accessed_w4<-0
+data$accessed_w4[data$date_accessed_w4>=treatment_dates[4]&
+                    data$date_accessed_w4<=outcome_range[4]&
+                     data$treatment=="Control"
+                     ]<-1
+data$accessed_w4[data$date_accessed_w4>=treatment_dates[4]&
+                    data$date_accessed_w4<=outcome_range[4]&
+                     data$treatment=="3"
+                     ]<-1
+data$accessed_w4[data$date_accessed_w4>=treatment_dates[5]&
+                    data$date_accessed_w4<=outcome_range[5]&
+                     data$treatment=="4"
+                     ]<-1
+
+data$accessed_w4[grepl("2|5|6|7|8|9|10",data$treatment)]<-NA
+with(data,table(accessed_w4,treatment,useNA="ifany"))
+
+
+data$accessed_w4_34v2<-0
+data$accessed_w4_34v2[data$date_accessed_w4>=treatment_dates[4]&
+                    data$date_accessed_w4<=outcome_range[4]
+                   &data$treatment=="3"
+                   ]<-1
+data$accessed_w4_34v2[data$date_accessed_w4>=treatment_dates[5]&
+                    data$date_accessed_w4<=outcome_range[5]
+                   &data$treatment=="4"
+                   ]<-1
+
+data$accessed_w4_34v2[data$date_accessed_w2>=treatment_dates[2]&
+                    data$date_accessed_w2<=outcome_range[2]
+                   &data$treatment=="2: Baseline"
+                   ]<-1
+
+data$accessed_w4_34v2[!grepl("2: Baseline|3|4",data$treatment)]<-NA
+with(data,table(accessed_w4_34v2,treatment,useNA="ifany"))
+
+
+
+
+```
+
+# Save data
+
+Finally we save the data as a csv file (for compatability) in a data subdirectory to be used in the mypay_reanalysis.Rmd file
+
+```{r}
+write.csv(data,file="~/Documents/sbst/mypay/data/mypay_clean.csv")
+```
+
+
+
+
+
+
