@@ -23,16 +23,11 @@ myPay is an online platform designed to help military retirees manage their mili
 
 # Design
 
-In collaboration with DFAS, the Social and Behavioral Sciences Team (SBST) designed nine different emails to encourage reactivation of myPay accounts. One email was designated as the baseline template, created based on existing language about myPay, with added clear action steps on how to reactivate an account. Eight email variations were built upon the baseline template using behavioral insights: an emails with the team’s signature versus an email with the director’s signature, three emails with different framings of benefits of using myPay during tax season, one with increased funds for our troops by cutting operation costs, one appealing to the security of using myPay, and one that provides social proof of retirees already using myPay. As a control, one group did not initially receive any emails. 
+In collaboration with DFAS, the Social and Behavioral Sciences Team (SBST) designed nine different emails to encourage reactivation of myPay accounts. One email was designated as the baseline template, created based on existing language about myPay, with added clear action steps on how to reactivate an account. Eight email variations were built upon the baseline template using behavioral insights: an emails with the team’s signature versus an email with the director’s signature, three emails with different framings of benefits of using myPay during tax season, one with increased funds for our troops by cutting operation costs, one appealing to the security of using myPay, and one that provides social proof of retirees already using myPay. As a control, one group did not initially receive any emails.
 
 Due to operational limitations, the emails were sent out in four separate waves between September 8 and November 5, 2015, two to three emails at a time. Emails were mostly sent on Tuesdays, with the exception of the final two emails, which went out on a Wednesday and the subsequent Thursday.
 After the pilot, two emails were chosen from the original nine, and sent to the control group. Including the control group, this pilot included 261,754 retirees.
 
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
 
 **Table 1. Treatment Conditions in Retiree myPay Account Reactivation Pilot**
 
@@ -60,15 +55,16 @@ Subjects in a  list of 212,258 email addresses were completely randomly assigned
 | 1    | 9/9/15           | Group 7           | 23580 |
 | 2    | 9/22/15          | Groups 2, 5, & 6  | 70953 |
 | 3    | 10/20/15         | Groups 8, 9, & 10 | 70594 |
-| 4    | 11/4/15; 11/5/15 | Groups 3, Group 4 | 47131 |
+| 4    | 11/4/15; 11/5/15 | Groups 3 & 4 | 47131 |
 
 # Analysis Plan
 
+Here is the plan for the analysis. We agreed on this plan before doing analysis.
 
 
 ## Data and Outcomes
 
-Six to nine days after each treatment wave was sent, DFAS queried their myPay records  providing an updated list of who had accessed and reactivated their myPay accounts.  The outcome for a particular treatment is defined from these multiple datasets, as the proportion of recipients who accessed their myPay account over a six-day period starting on the day a given email treatment was sent. This outcome can be compared to  the proportion of participants accessing their myPay accounts  over the same number of days (but at a potentially different point in time)  in the following groups:
+Six to nine days after each treatment wave was sent, DFAS queried their myPay records  providing an updated list of who had accessed and reactivated their myPay accounts.  The outcome for a particular treatment is defined from these multiple datasets as the proportion of recipients who accessed their myPay account over a six-day period starting on the day a given email treatment was sent. This outcome can be compared to  the proportion of participants accessing their myPay accounts  over the same number of days (but at a potentially different point in time)  in the following groups:
 
 - All untreated participants (Participants who have not yet received an email)
 - All “control” participants (Group 1)  who did not receive an email until December 8, 2015.
@@ -77,13 +73,15 @@ Six to nine days after each treatment wave was sent, DFAS queried their myPay re
 
 Table 4 details the dates data were collected, the treatments administered at that time  and  the relevant comparisons for each treatment. Note the date ranges for some comparisons involve comparisons across different waves of the study.
 
+**Table 4: Dates of treatment administration and outcome observation**
+
 | Wave | Date                    | Treatment             | Relevant Comparisons           |
 |------|-------------------------|-----------------------|--------------------------------|
 |      |                         |                       |                                |
 | 1    | Treatment Administered: | Group 7               | All Untreated                  |
 |      | 9/9/15                  |                       | Groups 1-6, 8-10               |
 |      |                         | Outcome defined over: | Dates: 9/9-9/14                |
-|      | Outcomes Observed:      | 9/9-9/14              | Wave: 1                        |
+|      | Outcomes Observed: 9/18 | 9/9-9/14              | Wave: 1                        |
 |      | 9/18/15                 |                       | Control                        |
 |      |                         |                       | Group 1                        |
 |      |                         |                       | Dates: 9/9-9/14                |
@@ -163,7 +161,7 @@ Table 4 details the dates data were collected, the treatments administered at th
 |      |                         |                       | Wave: 2;3                      |
 
 
-The aim is to compare the relative effectiveness of 9 treatments in terms of encouraging retirees to access their myPay accounts within seven days of receipt of the email encouragement.  
+The aim is to compare the relative effectiveness of 9 treatments in terms of encouraging retirees to access their myPay accounts within seven days of receipt of the email encouragement.
 
 We will report the average proportion subscribing in each of the 9 treatment conditions compared to those in the relevant comparison groups.
 
@@ -206,14 +204,14 @@ Finally, we will also explore the potential for heterogenous effects within bran
 # Results
 
 ```{r}
-data<-read.csv("~/Documents/sbst/mypay/data/mypay_clean.csv")
+data<-read.csv("data/mypay_clean.csv")
 # Relevel treatment factors
 data$treatment<-factor(data$treatment,levels=c("Control","2: Baseline",3:10))
 
 ```
 
 
-Between September 8 and November 10, 2015, 5.5% of retirees that did not receive any emails reactivated their myPay accounts. 
+Between September 8 and November 10, 2015, 5.5% of retirees that did not receive any emails reactivated their myPay accounts.
 
 ```{r}
 with(data,apply(table(accessed,treat_anyemail),2,prop.table))
@@ -222,7 +220,7 @@ with(data,apply(table(accessed,treat_anyemail),2,prop.table))
 
 
 
-In comparison, 10.2% of retirees that received a treatment email had reactivated their myPay accounts – a difference of 4.7 percentage points from the control group (p < 0.001, 95% CI [4.42,4.99]). 
+In comparison, 10.2% of retirees that received a treatment email had reactivated their myPay accounts – a difference of 4.7 percentage points from the control group (p < 0.001, 95% CI [4.42,4.99]).
 
 ```{r}
 m1<-lm(accessed~treat_anyemail,data)
@@ -262,7 +260,7 @@ with(data,
 
 ```
 
-We also estimated that the emails led to 800-1,000 additional customer service calls during the 3.5 months of pilot (out of 261,754 retirees). A follow-up analysis post-tax season will allow us to determine whether the increase in call volumes during the pilot will have offset the burden during tax season. 
+We also estimated that the emails led to 800-1,000 additional customer service calls during the 3.5 months of pilot (out of 261,754 retirees). A follow-up analysis post-tax season will allow us to determine whether the increase in call volumes during the pilot will have offset the burden during tax season.
 
 
 # Conclusions
