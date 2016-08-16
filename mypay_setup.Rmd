@@ -29,36 +29,36 @@ library(readstata13)
 # Treatment sent to: Group 7
 # On: 9/8
 # Untreated: Groups 1:6,8-10
-df1<-read.dta13("~/Documents/sbst/mypay/data/ra_group7_20150918062649_ForAnalysis_clean.dta")
+df1<-read.dta13("data/ra_group7_20150918062649_ForAnalysis_clean.dta")
 
 # df2: 9/28 data pull
 # Treatment sent to Groups 2,5&6
 # On 2/22
 # Untreated: Groups 1,3,4,8-10
-#df2<-read.dta("~/Documents/sbst/mypay/data/ra_group7_20150928144801_clean_s12.dta")
-df2<-read.dta13("~/Documents/sbst/mypay/data/ra_group7_20150928144801_clean.dta")
+#df2<-read.dta("data/ra_group7_20150928144801_clean_s12.dta")
+df2<-read.dta13("data/ra_group7_20150928144801_clean.dta")
 
 # df3: 10/28 data pull
 # Treatment sent to Groups 8,9&10
 # On 10/20
 # Untreated: Groups 1,3,4
-#df3<-read.dta("~/Documents/sbst/mypay/data/ra_20151028145544_clean_s12.dta")
-df3<-read.dta13("~/Documents/sbst/mypay/data/ra_20151028145544_clean.dta")
+#df3<-read.dta("data/ra_20151028145544_clean_s12.dta")
+df3<-read.dta13("data/ra_20151028145544_clean.dta")
 
 
 # df4: 11/10 data pull
 # Treatment sent to Groups 8,9&10
 # On 11/4: Group 3; 11/5 Group 4
 # Untreated: Groups 1
-#df4<-read.dta("~/Documents/sbst/mypay/data/ra_20151110142001_clean_s12.dta")
-df4<-read.dta13("~/Documents/sbst/mypay/data/ra_20151110142001_clean.dta")
+#df4<-read.dta("data/ra_20151110142001_clean_s12.dta")
+df4<-read.dta13("data/ra_20151110142001_clean.dta")
 
 # df5: 12/14 data pull
 # Treatment sent to Groups 1 (Control)
 # On 12/8
 # Untreated: None
-#df5<-read.dta("~/Documents/sbst/mypay/data/ra_20151214105342_clean_s12.dta")
-df5<-read.dta13("~/Documents/sbst/mypay/data/ra_20151214105342_clean.dta")
+#df5<-read.dta("data/ra_20151214105342_clean_s12.dta")
+df5<-read.dta13("data/ra_20151214105342_clean.dta")
 
 ```
 
@@ -410,7 +410,7 @@ with(data,table(accessed_w4_34v2,treatment,useNA="ifany"))
 Finally we save the data as a csv file (for compatability) in a data subdirectory to be used in the mypay_reanalysis.Rmd file
 
 ```{r}
-write.csv(data,file="~/Documents/sbst/mypay/data/mypay_clean.csv")
+write.csv(data,file="data/mypay_clean.csv")
 ```
 
 
