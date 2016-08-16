@@ -7,8 +7,9 @@ output: html_document
 
 ```{r init,echo=F}
 library(knitr)
-opts_chunk$set(eval=T,echo=T,message=F,warning=F,cache=T)
+opts_chunk$set(tidy=TRUE,echo=TRUE,results='markup',strip.white=TRUE,cache=FALSE,highlight=TRUE,width.cutoff=132,size='footnotesize',out.width='1.2\\textwidth',message=FALSE,warning=TRUE,comment=NA)
 
+options(width=110,digits=3)
 ```
 
 
@@ -317,49 +318,49 @@ Between September 8 and November 10, 2015, 5.5% of retirees that did not receive
 
 ```{r}
 with(data,apply(table(accessed,treat_anyemail),2,prop.table))
-
 ```
 
 
 
-In comparison, 10.2% of retirees that received a treatment email had reactivated their myPay accounts – a difference of 4.7 percentage points from the control group (p < 0.001, 95% CI [4.42,4.99]).
+In comparison, 10.2% of retirees that received a treatment email had reactivated their myPay accounts – a difference of 4.7 percentage points from the control group ($p < 0.001$, 95% CI [4.42,4.99]).
 
 ```{r}
+library(sandwich)
+library(lmtest)
+source("confintHC.R") 
 m1<-lm(accessed~treat_anyemail,data)
-summary(m1)
+coeftest(m1,vcov=vcovHC(m1,type="HC2"))
+confint.HC(m1,level=.95,parm="treat_anyemailEmail",thevcov=vcovHC(m1,type="HC2"))
 with(data,prop.test(table(treat_anyemail,accessed)[2:1,2:1]))
 # Slightly different confidence intervals, same result
 ```
 
-The most effective email was the one that appealed to the security of using myPay, with 11.1% reactivation rate – an increase of 5.6 percentage points (p < 0.001, 95% CI [5.16,6.06])).
+The most effective email was the one that appealed to the security of using myPay, with 11.1% reactivation rate – an increase of 5.6 percentage points ($p < 0.001$, 95% CI [5.16,6.06])).
 
 ```{r}
+with(data,apply(table(accessed,treatment),2,prop.table))
 with(data,apply(table(accessed,treatment),2,prop.table))[,9]
-library(lmtest)
 m2<-lm(accessed~treatment,data)
-coeftest(m2)["treatment9",]
-confint(m2)["treatment9",]
-
+coeftest(m2,vcov=vcovHC(m2,type="HC2"))["treatment9",]
+confint.HC(m2,level=.95,parm="treatment9",thevcov=vcovHC(m2,type="HC2"))
 data$treat9vC<-NA
 data$treat9vC[data$treatmen=="Control"]<-"Control"
 data$treat9vC[data$treatmen=="9"]<-"9"
-with(data,
-     prop.test(table(treat9vC,accessed)[1:2,2:1]))
+with(data, prop.test(table(treat9vC,accessed)[1:2,2:1]))
 ```
 
 
-Interestingly, the email that used specific tax document names (i.e. RAS and 1099) performed slightly better than the email that used the generic phrase “tax documents” by 0.6 percentage points (p < 0.05, 95% CI [0.10, 1.18]) .
+Interestingly, the email that used specific tax document names (i.e. RAS and 1099) performed slightly better than the email that used the generic phrase “tax documents” by 0.6 percentage points ($p < 0.05$, 95% CI [0.10, 1.18]) .
 
 ```{r}
 data$treat_5v6<-NA
 data$treat_5v6[data$treatment=="5"]<-"General"
 data$treat_5v6[data$treatment=="6"]<-"Specific"
 m3<-lm(accessed~treat_5v6,data)
-summary(m3)
-confint(m3)
+coeftest(m3,vcov=vcovHC(m3,type="HC2"))["treat_5v6Specific",]
+confint.HC(m3,level=.95,parm="treat_5v6Specific",thevcov=vcovHC(m3,type="HC2"))
 with(data,
      prop.test(table(treat_5v6,accessed)[1:2,2:1]))
-
 ```
 
 We also estimated that the emails led to 800-1,000 additional customer service calls during the 3.5 months of pilot (out of 261,754 retirees). A follow-up analysis post-tax season will allow us to determine whether the increase in call volumes during the pilot will have offset the burden during tax season.
@@ -386,15 +387,16 @@ with(data,apply(table(accessed_w4,treatment),2,prop.table))
 
 ```{r}
 # Adding a signature has no effect relative to baseline email
-summary(lm(accessed_w4_34v2~treatment,data))
+m4<-lm(accessed_w4_34v2~treatment,data)
+coeftest(m4,vcov=vcovHC(m4,type="HC2"))
 ```
 
 ## The effects of discussing tax benefits
 
 
 ```{r}
-
-summary(lm(accessed_w2_567v2~treatment,data))
+m5<-lm(accessed_w2_567v2~treatment,data)
+coeftest(m5,vcov=vcovHC(m5,type="HC2"))
 # None of the tax benefits appear more successful than the baseline email
 ```
 
@@ -402,7 +404,8 @@ summary(lm(accessed_w2_567v2~treatment,data))
 
 ```{r}
 # All of the general benefits appear more effecive than the baseline email
-summary(lm(accessed_w3_8910v2~treatment,data))
+m6<-lm(accessed_w3_8910v2~treatment,data)
+coeftest(m6,vcov=vcovHC(m6,type="HC2"))
 
 ```
 
