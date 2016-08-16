@@ -74,7 +74,8 @@ Six to nine days after each treatment wave was sent, DFAS queried their myPay re
 
 Table 4 details the dates data were collected, the treatments administered at that time  and  the relevant comparisons for each treatment. Note the date ranges for some comparisons involve comparisons across different waves of the study.
 
-<<<<<<< HEAD
+**Table 4: Dates of treatment administration and outcome observation**
+
 +-------+-------------------+---------------+---------------------------+
 | Wave 	| Date            	| Treatment     | Relevant Comparison      	|
 +=======+===================+===============+===========================+
@@ -174,94 +175,8 @@ Table 4 details the dates data were collected, the treatments administered at th
 |	   	|			   		|				| - Dates: 11/4-11/9; 11/5-11/10		|
 |	   	|		 	   		| 				| - Wave: 4					|
 +-------+-------------------+---------------+---------------------------+
-=======
-**Table 4: Dates of treatment administration and outcome observation**
 
-| Wave | Date                    | Treatment             | Relevant Comparisons           |
-|------|-------------------------|-----------------------|--------------------------------|
-|      |                         |                       |                                |
-| 1    | Treatment Administered: | Group 7               | All Untreated                  |
-|      | 9/9/15                  |                       | Groups 1-6, 8-10               |
-|      |                         | Outcome defined over: | Dates: 9/9-9/14                |
-|      | Outcomes Observed: 9/18 | 9/9-9/14              | Wave: 1                        |
-|      | 9/18/15                 |                       | Control                        |
-|      |                         |                       | Group 1                        |
-|      |                         |                       | Dates: 9/9-9/14                |
-|      |                         |                       | Wave: 1                        |
-|      |                         |                       | Baseline                       |
-|      |                         |                       | Groups 2                       |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       | Similar Treatments             |
-|      |                         |                       | Groups 5, 6                    |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       |                                |
-| 2    | Treatment Administered: | Groups 2, 5, & 6      | All Untreated                  |
-|      | 9/22/15                 |                       | Groups 1,3,4, 8-10             |
-|      |                         | Outcome defined over: | Dates: 9/22-9/27               |
-|      | Outcomes Observed:      | 9/22-9/27             | Wave: 2                        |
-|      | 9/28/15                 |                       | Control                        |
-|      |                         |                       | Group 1                        |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       | Baseline                       |
-|      |                         |                       | Groups 2                       |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       | Similar Treatments             |
-|      |                         |                       | Groups 5, 6,7                  |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-| 3    | Treatment Administered: | Groups 8, 9, & 10     | All Untreated                  |
-|      | 10/20/15                |                       | Groups 1,3,4                   |
-|      |                         | Outcome defined over: | Dates: 10/20-10/25             |
-|      | Outcomes Observed:      | 10/20-9/25            | Wave: 3                        |
-|      | 10/28/15                |                       | Control                        |
-|      |                         |                       | Group 1                        |
-|      |                         |                       | Dates: 10/20-10/25             |
-|      |                         |                       | Wave: 3                        |
-|      |                         |                       | Baseline                       |
-|      |                         |                       | Groups 2                       |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       | Similar Treatments             |
-|      |                         |                       | Groups 8-10                    |
-|      |                         |                       | Dates: 10/20-10/25             |
-|      |                         |                       | Wave: 3                        |
-| 4    | Treatment Administered: | Groups 3              | All Untreated                  |
-|      | 11/4/15;                |                       | Groups 1                       |
-|      | 11/5/15                 | Outcome defined over: | Dates: 11/4-11/9 [11/5-11/10]  |
-|      |                         | 11/4-11/9             | Wave: 4                        |
-|      | Outcomes Observed:      |                       | Control                        |
-|      | 11/10/15                | Group 4               | Group 1                        |
-|      |                         | Outcome defined over: | Dates: 11/4-11/10 [11/5-11/10] |
-|      |                         | 11/5-11/10            | Wave: 4                        |
-|      |                         |                       | Baseline                       |
-|      |                         |                       | Groups 2                       |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       | Similar Treatments             |
-|      |                         |                       | Groups 3,4                     |
-|      |                         |                       | Dates: 11/4-11/10 [11/5-11/10] |
-|      |                         |                       | Wave: 4                        |
-| 5    | Treatment Administered: | Group 1               | All Untreated                  |
-|      | 12/8/15;                |                       | Group 1                        |
-|      |                         | Outcome defined over: | Dates: 11/4-11/9 [11/5-11/10]  |
-|      |                         | 12/8-12/13            | Wave: 4                        |
-|      | Outcomes Observed:      |                       | Control                        |
-|      | 12/4/15                 |                       | Group 1                        |
-|      |                         |                       | Dates: 11/4-11/10 [11/5-11/10] |
-|      |                         |                       | Wave: 4                        |
-|      |                         |                       | Baseline                       |
-|      |                         |                       | Group 2                        |
-|      |                         |                       | Dates: 9/22-9/27               |
-|      |                         |                       | Wave: 2                        |
-|      |                         |                       | Similar Treatments             |
-|      |                         |                       | Groups 6,9                     |
-|      |                         |                       | Dates: 9/22-9/27; 10/20-10/25  |
-|      |                         |                       | Wave: 2;3                      |
->>>>>>> af44d2329bb714c51a86c71c92c4e0c92e822104
+
 
 
 The aim is to compare the relative effectiveness of 9 treatments in terms of encouraging retirees to access their myPay accounts within seven days of receipt of the email encouragement.
