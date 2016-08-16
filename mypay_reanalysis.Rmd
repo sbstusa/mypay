@@ -275,7 +275,7 @@ m3<-lm(accessed~treat_5v6,data)
 coeftest(m3,vcov=vcovHC(m3,type="HC2"))["treat_5v6Specific",]
 confint.HC(m3,level=.95,parm="treat_5v6Specific",thevcov=vcovHC(m3,type="HC2"))
 with(data,
-     prop.test(table(treat_5v6,accessed)[1:2,2:1]))
+     stats::prop.test(table(treat_5v6,accessed)[1:2,1:2]))
 ```
 
 We also estimated that the emails led to 800-1,000 additional customer service calls during the 3.5 months of pilot (out of 261,754 retirees). A follow-up analysis post-tax season will allow us to determine whether the increase in call volumes during the pilot will have offset the burden during tax season.
