@@ -9,26 +9,24 @@ output: html_document
 library(knitr)
 opts_chunk$set(tidy=TRUE,echo=TRUE,results='markup',strip.white=TRUE,cache=FALSE,highlight=TRUE,width.cutoff=132,size='footnotesize',out.width='1.2\\textwidth',message=FALSE,warning=TRUE,comment=NA)
 
-options(width=110,digits=3)
+options(width=110,digits=4)
 ```
 
 
 
 # Agency Objective
 
-Increase military retirees’ myPay reactivations before tax season in order to offset burden during tax season.
+Increase military retirees’ reactivation of their online military retirement finance management platform accounts to allow retirees faster access to their tax documents and to offset operational burden for the agency during tax season.
 
 # Background
 
-myPay is an online platform designed to help military retirees manage their military retirement finances. myPay allows convenient electronic download of tax documents, such as a Retirement Account Summary and IRS-1099 forms. While a myPay account is created for all military retirees automatically, many have never used it, or have let their accounts deactivate by not logging in for 180 consecutive days; about 55% of the retiree population have inactive myPay accounts (1.4 out of 2.5 million retirees). This poses a problem during tax season, when the number of retirees contacting the Defense Finance and Accounting Service (DFAS) surges as retirees try to either re-gain access to myPay or request additional copies of their tax documents (paper tax documents are mailed to retirees as default). This not only places substantial costs and burden on DFAS, but it also may result in slower services for the military retirees.
+One of the purposes of the online platform myPay is to help military retirees manage their military retirement finances. It allows electronic download of tax documents, such as a Retirement Account Summary and the IRS-1099 form. While myPay accounts are automatically created for all military retirees, many have never used their account, or have let their accounts deactivate by not logging in for 180 consecutive days. At the time of this pilot, about 55% of the retiree population had inactive myPay accounts (1.4 out of 2.5 million retirees). This poses a problem during tax season, when the number of retirees contacting the Defense Finance and Accounting Service (DFAS) surges as retirees try to either re-gain access to myPay or request copies of their tax documents. For example, in the fourth quarter of 2014 DFAS received a monthly average of 12,393 calls regarding accessing myPay accounts, compared to 29,046 during the first quarter (tax season) of 2015. The increased call volume during tax season places operational burden on DFAS and may result in slower services for military retirees. 
 
 # Design
 
-In collaboration with DFAS, the Social and Behavioral Sciences Team (SBST) designed nine different emails to encourage reactivation of myPay accounts. One email was designated as the baseline template, created based on existing language about myPay, with added clear action steps on how to reactivate an account. Eight email variations were built upon the baseline template using behavioral insights: an emails with the team’s signature versus an email with the director’s signature, three emails with different framings of benefits of using myPay during tax season, one with increased funds for our troops by cutting operation costs, one appealing to the security of using myPay, and one that provides social proof of retirees already using myPay. As a control, one group did not initially receive any emails.
+DFAS and SBST designed nine different emails to encourage reactivation of myPay accounts prior to the beginning of tax season. A baseline email template was created using existing language about myPay from DFAS’ newsletters and letters to retirees, with added clear action steps on how to reactivate a myPay account.^[Clear information can induce action. Hastings, J., & Weinstein, J. (2008). Information, School Choice, and Academic Achievement: Evidence from Two Experiments. The Quarterly Journal of Economics, 123(4), 1373-1414. Also see TSP SmartDocs pilot in SBST 2015 Annual Report for another example of clear action steps.]  Eight additional email variants were built upon the baseline template using behavioral insights: an email with a DFAS team signature versus an email with a DFAS director’s signature, one email highlighting the resources that could be given to current Servicemembers by cutting DFAS’ mailing costs, one email appealing to the informational security of using myPay, one email that provided social proof information,^[“Social proof” refers to the use of information on the common use of myPay by a large number of military retirees, from which individuals who are considering using myPay might infer its usefulness. ]  and three emails with different framings of how myPay can simplify retrieval of tax documents.^[A generic statement about access to “tax documents,” a statement instead referring to specific tax documents – the “1099 and RAS” – and a statement asking individuals to think about their experience last tax season.]  A control group did not receive any email during testing, but received an email after the end of the pilot.^[After the pilot, two emails were chosen from the original nine, and sent to the control group.]^[Including the control group, 261,754 retirees participated in the pilot.]
 
-Due to operational limitations, the emails were sent out in four separate waves between September 8 and November 5, 2015, two to three emails at a time. Emails were mostly sent on Tuesdays, with the exception of the final two emails, which went out on a Wednesday and the subsequent Thursday.
-After the pilot, two emails were chosen from the original nine, and sent to the control group. Including the control group, this pilot included 261,754 retirees.
-
+Emails were sent out in four separate waves between September 8 and November 5, 2015, two to three treatments at a time.^[Emails were mostly sent on Tuesdays, with the exception of the final two emails, which went out on Wednesday November 4th and Thursday November 5th.]
 
 **Table 1. Treatment Conditions in Retiree myPay Account Reactivation Pilot**
 
@@ -178,47 +176,6 @@ Table 4 details the dates data were collected, the treatments administered at th
 
 
 
-
-The aim is to compare the relative effectiveness of 9 treatments in terms of encouraging retirees to access their myPay accounts within seven days of receipt of the email encouragement.
-
-We will report the average proportion subscribing in each of the 9 treatment conditions compared to those in the relevant comparison groups.
-
-The first question is whether each treatments differs from the control group, adjusting for multiple comparisons .
-
-Then we will test the following hypotheses relative to the baseline template, again adjusting for multiple comparisons:
-
-The effects of adding a signature:
-
-- 2 versus 3 and 4 (Baseline vs Any Signature)
-- 2 versus 3  (Baseline vs Specific Signature)
-- 2 versus 4  (Baseline vs General Signature)
-- 3 versus 4  (Specific vs General Signature)
-
-The effect of tax benefits
-
-- 2 versus 5,6,7 (Baseline vs Tax Benefits)
-- 2 versus 5  (Baseline vs General Benefits)
-- 2 versus 6  (Baseline vs Specific Benefits)
-- 2 versus 7  (Baseline vs Past Hassles)
-- 5 versus 6  (General Benefits vs Specific Benefits)
-- 5 versus 7  (General Benefits vs Past Hassles)
-- 6 versus 7  (Specific Benefits vs Past Hassles)
-
-The effect of other benefits benefits
-
-- 2 versus 8,9,10 (Baseline vs Other Benefits)
-- 2 versus 8  (Baseline vs Troop Benefits)
-- 2 versus 9  (Baseline vs Security Benefits)
-- 2 versus 10  (Baseline vs Social Proof)
-- 8 versus 9  (Troop Benefits vs Security Benefits)
-- 8 versus 10  (Troop Benefits vs Past Hassles)
-- 9 versus 10  (Security Benefits vs Social Proof)
-
-We do not have expected directions of effects, so we use two-tailed p-values throughout.
-
-Finally, we will also explore the potential for heterogenous effects within branch of service and age group.
-
-
 # Results
 
 ```{r}
@@ -236,8 +193,7 @@ with(data,apply(table(accessed,treat_anyemail),2,prop.table))
 ```
 
 
-
-In comparison, 10.2% of retirees that received a treatment email had reactivated their myPay accounts – a difference of 4.7 percentage points from the control group ($p < 0.001$, 95% CI [4.42,4.99]).
+In comparison, 10.2% of retirees who received an email had reactivated their myPay accounts – a difference of 4.7 percentage points from the control group (p < 0.001, 95% CI [4.50,4.98]). 
 
 ```{r}
 library(sandwich)
@@ -248,43 +204,112 @@ coeftest(m1,vcov=vcovHC(m1,type="HC2"))
 confint.HC(m1,level=.95,parm="treat_anyemailEmail",thevcov=vcovHC(m1,type="HC2"))
 with(data,prop.test(table(treat_anyemail,accessed)[2:1,2:1]))
 # Slightly different confidence intervals, same result
+
 ```
 
-The most effective email was the one that appealed to the security of using myPay, with 11.1% reactivation rate – an increase of 5.6 percentage points ($p < 0.001$, 95% CI [5.16,6.06])).
+This translates to about 800-1,000 additional customer service calls during the 3.5 months of pilot. 
+
+The most effective email appealed to the security of using myPay to retrieve tax documents, compared to using traditional mail.^[“Don’t risk getting your W-2 and other tax documents lost in the mail or opened by someone else.”]  This email increased reactivation by 5.5 percentage points compared to no email (p < 0.001, 95% CI [5.13,5.77]). 
 
 ```{r}
+# Compare treatment effects over total study
 with(data,apply(table(accessed,treatment),2,prop.table))
 with(data,apply(table(accessed,treatment),2,prop.table))[,9]
 m2<-lm(accessed~treatment,data)
 coeftest(m2,vcov=vcovHC(m2,type="HC2"))["treatment9",]
 confint.HC(m2,level=.95,parm="treatment9",thevcov=vcovHC(m2,type="HC2"))
+table(data$treatment)
+# Look specifically at Treatment 9 (increased security) vs Control
+# During 6-day window in Wave 3 
 data$treat9vC<-NA
 data$treat9vC[data$treatmen=="Control"]<-"Control"
-data$treat9vC[data$treatmen=="9"]<-"9"
-with(data, prop.test(table(treat9vC,accessed)[1:2,2:1]))
+data$treat9vC[data$treatmen=="9"]<-"Treatment 9"
+with(data, prop.test(table(treat9vC,accessed_w3)[1:2,2:1]))
+
+m9vC<-lm(accessed_w3_c~treat9vC,data)
+coeftest(m9vC,vcov=vcovHC(m9vC,type="HC2"))["treat9vCTreatment 9",]
+confint.HC(m9vC,level=.95,parm="treat9vCTreatment 9",thevcov=vcovHC(m9vC,type="HC2"))
+
 ```
 
 
-Interestingly, the email that used specific tax document names (i.e. RAS and 1099) performed slightly better than the email that used the generic phrase “tax documents” by 0.6 percentage points ($p < 0.05$, 95% CI [0.10, 1.18]) .
+
 
 ```{r}
-data$treat_5v6<-NA
-data$treat_5v6[data$treatment=="5"]<-"General"
-data$treat_5v6[data$treatment=="6"]<-"Specific"
-m3<-lm(accessed~treat_5v6,data)
-coeftest(m3,vcov=vcovHC(m3,type="HC2"))["treat_5v6Specific",]
-confint.HC(m3,level=.95,parm="treat_5v6Specific",thevcov=vcovHC(m3,type="HC2"))
-with(data,
-     stats::prop.test(table(treat_5v6,accessed)[1:2,1:2]))
-```
+# Other comparisons to pure control
 
-We also estimated that the emails led to 800-1,000 additional customer service calls during the 3.5 months of pilot (out of 261,754 retirees). A follow-up analysis post-tax season will allow us to determine whether the increase in call volumes during the pilot will have offset the burden during tax season.
+# Wave 1
+data$treat7vC<-NA
+data$treat7vC[data$treatment=="Control"]<-"Control"
+data$treat7vC[data$treatment=="7"]<-"Treatment 7"
+m7vC<-lm(accessed_w1_c~treat7vC,data)
+coeftest(m7vC,vcov=vcovHC(m7vC,type="HC2"))["treat7vCTreatment 7",]
+confint.HC(m7vC,level=.95,parm="treat7vCTreatment 7",thevcov=vcovHC(m7vC,type="HC2"))
+
+# Wave 2
+
+data$treat2vC<-NA
+data$treat2vC[data$treatment=="Control"]<-"Control"
+data$treat2vC[data$treatment=="2: Baseline"]<-"Treatment 2"
+m2vC<-lm(accessed_w2_c~treat2vC,data)
+coeftest(m2vC,vcov=vcovHC(m2vC,type="HC2"))["treat2vCTreatment 2",]
+confint.HC(m2vC,level=.95,parm="treat2vCTreatment 2",thevcov=vcovHC(m2vC,type="HC2"))
+
+
+data$treat5vC<-NA
+data$treat5vC[data$treatment=="Control"]<-"Control"
+data$treat5vC[data$treatment=="5"]<-"Treatment 5"
+m5vC<-lm(accessed_w2_c~treat5vC,data)
+coeftest(m5vC,vcov=vcovHC(m5vC,type="HC2"))["treat5vCTreatment 5",]
+confint.HC(m5vC,level=.95,parm="treat5vCTreatment 5",thevcov=vcovHC(m5vC,type="HC2"))
+
+data$treat6vC<-NA
+data$treat6vC[data$treatment=="Control"]<-"Control"
+data$treat6vC[data$treatment=="6"]<-"Treatment 6"
+m6vC<-lm(accessed_w2_c~treat6vC,data)
+coeftest(m6vC,vcov=vcovHC(m6vC,type="HC2"))["treat6vCTreatment 6",]
+confint.HC(m6vC,level=.95,parm="treat6vCTreatment 6",thevcov=vcovHC(m6vC,type="HC2"))
+
+# Wave 3
+
+data$treat8vC<-NA
+data$treat8vC[data$treatment=="Control"]<-"Control"
+data$treat8vC[data$treatment=="8"]<-"Treatment 8"
+m8vC<-lm(accessed_w3_c~treat8vC,data)
+coeftest(m8vC,vcov=vcovHC(m8vC,type="HC2"))["treat8vCTreatment 8",]
+confint.HC(m8vC,level=.95,parm="treat8vCTreatment 8",thevcov=vcovHC(m8vC,type="HC2"))
+
+data$treat10vC<-NA
+data$treat10vC[data$treatment=="Control"]<-"Control"
+data$treat10vC[data$treatment=="10"]<-"Treatment 10"
+m10vC<-lm(accessed_w3~treat10vC,data)
+coeftest(m10vC,vcov=vcovHC(m10vC,type="HC2"))["treat10vCTreatment 10",]
+confint.HC(m10vC,level=.95,parm="treat10vCTreatment 10",thevcov=vcovHC(m10vC,type="HC2"))
+
+# Wave 4
+data$treat3vC<-NA
+data$treat3vC[data$treatment=="Control"]<-"Control"
+data$treat3vC[data$treatment=="3"]<-"Treatment 3"
+m3vC<-lm(accessed_w4~treat3vC,data)
+coeftest(m3vC,vcov=vcovHC(m3vC,type="HC2"))["treat3vCTreatment 3",]
+confint.HC(m3vC,level=.95,parm="treat3vCTreatment 3",thevcov=vcovHC(m3vC,type="HC2"))
+
+data$treat4vC<-NA
+data$treat4vC[data$treatment=="Control"]<-"Control"
+data$treat4vC[data$treatment=="4"]<-"Treatment 4"
+m4vC<-lm(accessed_w4~treat4vC,data)
+coeftest(m4vC,vcov=vcovHC(m4vC,type="HC2"))["treat4vCTreatment 4",]
+confint.HC(m4vC,level=.95,parm="treat4vCTreatment 4",thevcov=vcovHC(m4vC,type="HC2"))
+    
+
+
+
+```
 
 
 # Conclusions
 
 Clear action steps and behaviorally informed messaging can be a significant help for military retirees reactivating myPay accounts. The best performing language will be utilized in DFAS’ future communications to further improve their service to military retirees.
-Follow-up analysis will allow us to determine whether this pilot had impact on DFAS’ costs and burden during tax season.
 
 # Appendix
 
